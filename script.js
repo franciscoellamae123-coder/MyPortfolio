@@ -1,83 +1,61 @@
-// ================================
-// MOBILE MENU
-// ================================
+
+/* ==============================
+   MOBILE NAVIGATION
+============================== */
 
 const menuButton = document.getElementById("menu-button");
-const navLinks = document.querySelector(".nav-links");
+const navLinks = document.getElementById("nav-links");
 
 menuButton.addEventListener("click", function () {
+    const isOpen = navLinks.classList.toggle("open");
 
-    navLinks.classList.toggle("active");
+    menuButton.setAttribute("aria-expanded", isOpen);
 
+    if (isOpen) {
+        menuButton.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+    } else {
+        menuButton.innerHTML = '<i class="fa-solid fa-bars"></i>';
+    }
 });
 
 
-// ================================
-// CLOSE MENU AFTER CLICKING LINK
-// ================================
+/* ==============================
+   NAVIGATION ACTIVE LINK
+============================== */
 
-const links = document.querySelectorAll(".nav-links a");
+document.querySelectorAll(".nav-links a").forEach(function (link) {
 
-links.forEach(function(link) {
+    link.addEventListener("click", function () {
 
-    link.addEventListener("click", function() {
+        navLinks.classList.remove("open");
 
-        navLinks.classList.remove("active");
+        menuButton.setAttribute("aria-expanded", "false");
+        menuButton.innerHTML = '<i class="fa-solid fa-bars"></i>';
 
+        document.querySelectorAll(".nav-links a").forEach(function (item) {
+            item.classList.remove("active");
+        });
+
+        link.classList.add("active");
     });
 
 });
 
 
-// ================================
-// CONTACT FORM
-// ================================
+/* ==============================
+   CONTACT FORM
+============================== */
 
 const contactForm = document.getElementById("contact-form");
+const formMessage = document.getElementById("form-message");
 
-contactForm.addEventListener("submit", function(event) {
+contactForm.addEventListener("submit", function (event) {
 
     event.preventDefault();
 
-    const name = document.getElementById("name").value;
+    formMessage.textContent =
+        "Thank you for your message! This form is a demo and is not connected to email yet.";
 
-    alert("Thank you, " + name + "! Your message has been submitted.");
-
-    contactForm.reset();
-
-});
-
-
-// ================================
-// BACK TO TOP BUTTON
-// ================================
-
-const topButton = document.getElementById("top-button");
-
-topButton.addEventListener("click", function() {
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-
-});
-
-
-// ================================
-// SHOW / HIDE BACK TO TOP BUTTON
-// ================================
-
-window.addEventListener("scroll", function() {
-
-    if (window.scrollY > 300) {
-
-        topButton.style.display = "block";
-
-    } else {
-
-        topButton.style.display = "none";
-
-    }
+    this.reset();
 
 });
